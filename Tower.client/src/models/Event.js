@@ -9,7 +9,6 @@ export class Event {
     this.capacity = data.capacity
     this.startDate = data.startDate
     this.isCancelled = data.isCancelled || false
-    // TODO IDK IF ENUM IS DIFFERENT ON FRONT END
     this.type = data.type
   }
 }
