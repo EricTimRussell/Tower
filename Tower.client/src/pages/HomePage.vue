@@ -16,7 +16,7 @@
         <button @click="filterCategory('digital')" class="btn btn-primary fs-3 text-shadow">Digital</button>
       </div>
       <div class="row">
-        <div class="col-md-4 p-3" v-for="e in events" :key="e.id">
+        <div class="col-md-4 p-3" v-for="e in event" :key="e.id">
           <EventCard :event="e" />
         </div>
       </div>
@@ -46,7 +46,7 @@ export default {
     });
 
     return {
-      events: computed(() => AppState.events),
+      event: computed(() => AppState.events),
       async filterCategory(type) {
         try {
           await eventsService.getAllEvents(type)
@@ -74,6 +74,7 @@ export default {
 .homeimg {
   max-height: 40vh;
   min-width: 100%;
+  object-fit: cover;
 }
 
 .page-bg {

@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'Event', params: {id: event.creatorId}}">
+  <router-link :to="{name: 'Event', params: {id: event.id}}">
     <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${event.coverImg})`}">
       <div class="card-body">
       </div>

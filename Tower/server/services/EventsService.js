@@ -15,7 +15,8 @@ class EventsService {
     await ticket.remove()
     // @ts-ignore
     event.capacity++
-    // TODO POSTMAN SAYS THIS IS STILL NOT WORKING
+    // @ts-ignore
+    await event.save()
     return ticket
   }
 
@@ -44,6 +45,10 @@ class EventsService {
     const ticket = await dbContext.Tickets.create(ticketData)
     await ticket.populate('profile', 'name picture'),
       await ticket.populate('event', 'name')
+    // @ts-ignore
+    if (event.capacity == 0) {
+      throw new BadRequest('This is a Sold Out Event')
+    }
     // @ts-ignore
     event.capacity--
     // @ts-ignore
@@ -77,10 +82,38 @@ class EventsService {
   async createEvent(eventData) {
     const event = await dbContext.TowerEvents.create(eventData)
     await event.populate('creator', 'name, picture')
-    // TODO ADD TICKET SERVICE ATTENDEES
     return event
   }
+  async editMyEvent(eventData, body) {
+    const event = await this.getEventById(eventData.id)
+    // @ts-ignore
+    if (body.creatorId != event.creatorId.toString()) {
+      throw new Forbidden('This is not your event')
+    }
+    // @ts-ignore
+    if (event.isCanceled == true) {
+      throw new Forbidden('Cannot edit cacncelled event')
+    }
 
+    // @ts-ignore
+    event.name = body.name || event.name
+    // @ts-ignore
+    event.coverImg = body.coverImg || event.coverImg
+    // @ts-ignore
+    event.description = body.description || event.description
+    // @ts-ignore
+    event.location = body.location || event.location
+    // @ts-ignore
+    event.capacity = body.capacity || event.capacity
+    // @ts-ignore
+    event.startDate = body.startDate || event.startDate
+    // @ts-ignore
+    event.type = body.type || event.type
 
+    // @ts-ignore
+    await event.save()
+    return event
+  }
+  // TODO FIX EDITS
 }
 export const eventService = new EventsService()
