@@ -16,8 +16,8 @@
         <button @click="filterCategory('digital')" class="btn btn-primary fs-3 text-shadow">Digital</button>
       </div>
       <div class="row">
-        <div class="col-md-4 p-3" v-for="e in event" :key="e.id">
-          <EventCard :event="e" />
+        <div class="col-md-4 p-3" v-for="e in events" :key="e.id">
+          <EventCard :events="e" />
         </div>
       </div>
     </div>
@@ -46,14 +46,14 @@ export default {
     });
 
     return {
-      event: computed(() => AppState.events),
+      events: computed(() => AppState.events),
       async filterCategory(type) {
         try {
           await eventsService.getAllEvents(type)
         } catch (error) {
           Pop.error(error, 'Filter Categories')
         }
-      }
+      },
     };
   },
   components: { EventCard }
@@ -79,6 +79,7 @@ export default {
 
 .page-bg {
   background-image: url(https://th.bing.com/th/id/R.dc8f14684b69cfc0d4b618cffcac86a6?rik=plXUGz%2bQ9h%2fMBQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2f38TYCLK.jpg&ehk=D8qmcuStUPeNvjwN%2bDXC91b0YOqhDBg9ZKJ02Vpfe0A%3d&risl=&pid=ImgRaw&r=0);
+  min-height: 100vh;
 }
 
 .text-shadow {

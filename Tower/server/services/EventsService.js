@@ -114,6 +114,6 @@ class EventsService {
     await event.save()
     return event
   }
-  // TODO FIX EDITS
+
 }
 export const eventService = new EventsService()

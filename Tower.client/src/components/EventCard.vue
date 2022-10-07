@@ -1,12 +1,12 @@
 <template>
-  <router-link :to="{name: 'Event', params: {id: event.id}}">
-    <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${event.coverImg})`}">
+  <router-link :to="{name: 'Event', params: {id: events.id}}">
+    <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${events.coverImg})`}">
       <div class="card-body">
       </div>
       <div class="card-footer glass">
-        <h3 class="text-shadow">{{event.name}}</h3>
+        <h3 class="text-shadow">{{events.name}}</h3>
         <div>
-          <h5 class="text-end p-2 text-shadow">{{event.capacity}} Tickets Left</h5>
+          <h5 class="text-end p-2 text-shadow">{{events.capacity}} Tickets Left</h5>
         </div>
       </div>
     </div>
@@ -17,10 +17,13 @@
 <script>
 export default {
   props: {
-    event: { type: Object, required: true }
+    events: { type: Object, required: true }
   },
   setup() {
-    return {}
+
+    return {
+
+    }
   }
 }
 </script>

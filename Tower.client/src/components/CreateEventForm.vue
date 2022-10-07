@@ -11,7 +11,7 @@
       </select>
     </div>
 
-    <!-- TODO ADD ARIA LABELS FML -->
+    <!-- TODO ADD ARIA LABELS -->
     <div>
       <div class="form-group">
         <label for="name">Event Name</label>
@@ -63,6 +63,7 @@ export default {
       editable,
       async handleSubmit() {
         try {
+          debugger
           await eventsService.createEvent(editable.value)
           editable.value = {}
         } catch (error) {
