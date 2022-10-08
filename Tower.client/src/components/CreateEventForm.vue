@@ -53,19 +53,25 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { eventsService } from "../services/EventsService";
 import Pop from "../utils/Pop";
 
 export default {
   setup() {
+    const router = useRouter()
     const editable = ref({})
     return {
       editable,
+      router,
       async handleSubmit() {
         try {
           debugger
-          await eventsService.createEvent(editable.value)
+          const newEvent = await eventsService.createEvent(editable.value)
+
+          // TODO after creating event....PUSH me to the details page for the new event
           editable.value = {}
+          router.push({ name: 'Event', params: { id: newEvent.id } })
         } catch (error) {
           Pop.error(error, "Submitting Form")
         }

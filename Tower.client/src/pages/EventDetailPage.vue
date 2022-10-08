@@ -3,7 +3,7 @@
     <div class="row">
       <div class="page-bg">
         <div class="card col-12 d-flex glass text-shadow">
-          <img :src="event.coverImg" class="img-fluid event-img"
+          <img :src="event.coverImg" class="img-fluid event-img py-3"
             alt="https://th.bing.com/th/id/R.17502cb38ba111f3a64fac3e24fe2def?rik=ZGzhlgoUXnLYjQ&pid=ImgRaw&r=0">
           <div class="text-center">
             <h2>{{event.name}} || {{new Date (event.startDate).toLocaleDateString('en-us', {month:
@@ -17,26 +17,32 @@
           </div>
           <div class="card-footer">
             <h5 class="text-end">{{event.capacity}} Spots Left</h5>
-            <h1 v-if="events.isCancelled == true" class="text-danger">CANCELLED</h1>
-            <!-- TODO DOESNT WORK ^ -->
-            <div class="d-flex justify-content-between my-3">
-              <button @click="getTicket()" class="btn btn-info mdi mdi-human" v-if="attendee">Attend</button>
-              <button @click="cancelEvent()" class="btn btn-danger mx-3" v-if="event.creatorId == account.id">Cancel
+            <h1 v-if="event.isCancelled == true" class="text-danger">CANCELLED</h1>
+            <div v-if="event.capacity>0" class="d-flex justify-content-between my-3">
+              <button @click="deleteTicket()" class="btn btn-danger" v-if="isAttending">CancelTicket</button>
+              <button @click="getTicket()" :disabled="event.isCancelled" class="btn btn-info mdi mdi-human"
+                v-else>Attend</button>
+              <!-- TODO :disabled="isAttending" -->
+              <!-- new button rendered IF i am attending that will delete the ticket...... be mindful of what id you are passing here... we want to delete the id of the ticket -->
+              <button @click="cancelEvent()" :disabled="event.isCancelled" class="btn btn-danger mx-3"
+                v-if="event.creatorId == account.id">Cancel
                 Event</button>
             </div>
+            <div v-else>
+              <h1>Event is Sold Out</h1>
+            </div>
           </div>
+          <h4 class="px-3">Who's Coming?</h4>
           <div class="text-shadow p-3" v-for="a in attendee">
-            <h4>Who's Coming?</h4>
-            <img :src="attendee[0].profile.picture" :title="attendee[0].profile.name" class="prof-img">
-            <!-- TODO DOESNT WORK ^ -->
+            <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
           </div>
         </div>
-        <div class="col-12 card">
+        <div class="col-12 card glass">
           <form @submit.prevent="handleSubmit">
-            <div>
+            <div class="p-3">
               <label for="body"></label>
               <textarea v-model="editable.body" placeholder="comments" class="form-control" style="height: 100px"
-                required minlength="1" maxlength="500"></textarea>
+                required minlength="1" maxlength="500" :disabled="event.isCancelled"></textarea>
             </div>
             <div class="d-flex justify-content-end p-2">
               <button class="btn btn-secondary">Post</button>
@@ -51,7 +57,7 @@
 
 <script>
 import { computed, ref } from "@vue/reactivity";
-import { onMounted, watchEffect } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { AppState } from "../AppState";
 import EventDetail from "../components/EventDetail.vue";
@@ -87,11 +93,10 @@ export default {
       }
     }
 
-    watchEffect(() => {
-      getEventById(route.params.id)
-      getAttendeesByEventId(route.params.id)
+    onMounted(() => {
+      getEventById()
+      getAttendeesByEventId()
       getCommentsByEvent()
-
     })
     return {
       editable,
@@ -100,6 +105,9 @@ export default {
       attendee: computed(() => AppState.tickets),
       comment: computed(() => AppState.comments),
       events: computed(() => AppState.events),
+      isAttending: computed(() => AppState.attendee.find(a => a.accountId == AppState.account.id)),
+
+      // TODO create a computed that 'finds' whether or not the person logged in is attending the event...... you will use this computed to help dynamically render your buttons
 
       async handleSubmit() {
         try {
@@ -130,6 +138,16 @@ export default {
           Pop.error(error)
         }
       },
+      async deleteTicket() {
+        try {
+          const yes = await Pop.confirm('Delete Ticket?')
+          if (!yes) { return }
+          const attendee = AppState.attendee.find(a => a.accountId == AppState.account.id && a.eventId == AppState.activeEvent.id)
+          await eventsService.deleteTicket(attendee.id)
+        } catch (error) {
+          Pop.error(error, 'Deleting Ticket')
+        }
+      }
     };
   },
   components: { EventDetail, CommentsCard }

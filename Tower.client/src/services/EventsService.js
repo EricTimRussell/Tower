@@ -10,7 +10,7 @@ class EventsService {
     if (type) {
       res = await api.get('/api/events', {
         params: {
-          category: type
+          type: type
         }
       })
     } else {
@@ -18,16 +18,10 @@ class EventsService {
     }
     AppState.events = res.data.map(e => new TowerEvent(e))
   }
-  // TODO FIX FILTER
-  // async getAllEvents() {
-  //   const res = await api.get('/api/events')
-  //   console.log(res.data);
-  //   AppState.events = res.data
-  // }
   async createEvent(formData) {
     const res = await api.post('/api/events', formData)
     AppState.events.unshift(res.data)
-    // router.push({ path: `/eventdetails/${id}` })
+    return res.data
   }
 
   async getEventById(id) {
@@ -38,7 +32,7 @@ class EventsService {
     await api.delete(`/api/events/${id}`)
   }
   async getAttendeesByEventId(eventId) {
-    const res = await api.get(`api/events/${eventId}/tickets`)
+    const res = await api.get(`/api/events/${eventId}/tickets`)
     console.log(res.data);
     AppState.tickets = res.data
   }
@@ -50,6 +44,9 @@ class EventsService {
     }
     AppState.attendee.push(attendee)
   }
-
+  async deleteTicket(attendeeId) {
+    await api.delete('api/tickets/' + attendeeId)
+    AppState.attendee = AppState.attendee.filter(a => a.id != attendeeId)
+  }
 }
 export const eventsService = new EventsService()

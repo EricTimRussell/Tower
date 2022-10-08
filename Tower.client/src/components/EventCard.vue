@@ -1,23 +1,28 @@
 <template>
-  <router-link :to="{name: 'Event', params: {id: events.id}}">
-    <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${events.coverImg})`}">
-      <div class="card-body">
-      </div>
-      <div class="card-footer glass">
-        <h3 class="text-shadow">{{events.name}}</h3>
-        <div>
-          <h5 class="text-end p-2 text-shadow">{{events.capacity}} Tickets Left</h5>
+  <div v-if="events">
+
+
+    <router-link :to="{name: 'Event', params: {id: events.id}}">
+      <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${events.coverImg})`}">
+        <div class="card-body">
+        </div>
+        <div class="card-footer glass">
+          <h3 class="text-shadow">{{events.name}}</h3>
+          <div>
+            <h5 class="text-end p-2 text-shadow">{{events.capacity}} Tickets Left</h5>
+          </div>
         </div>
       </div>
-    </div>
-  </router-link>
+    </router-link>
+  </div>
 </template>
 
 
 <script>
+
 export default {
   props: {
-    events: { type: Object, required: true }
+    events: { type: Object, required: false }
   },
   setup() {
 

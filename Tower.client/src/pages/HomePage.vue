@@ -2,21 +2,21 @@
   <div class="container-fluid page-bg">
     <div class="row">
       <div class="col-12 text-shadow">
-        <h1>TowerEvents</h1>
+        <h1>StadiumEvents</h1>
       </div>
-      <div class="col-12">
+      <div class="col-12 nopadmarg">
         <img src="https://th.bing.com/th/id/R.17502cb38ba111f3a64fac3e24fe2def?rik=ZGzhlgoUXnLYjQ&pid=ImgRaw&r=0"
           alt="arena" class="img-fluid homeimg">
       </div>
-      <div class="col-md-12 d-flex justify-content-evenly my-4 bg-secondary elevation-3">
-        <button @click="filterCategory('')" class="btn btn-primary fs-3 text-shadow">All</button>
-        <button @click="filterCategory('concert')" class="btn btn-primary fs-3 text-shadow">Concert</button>
-        <button @click="filterCategory('convention')" class="btn btn-primary fs-3 text-shadow">Convention</button>
-        <button @click="filterCategory('sport')" class="btn btn-primary fs-3 text-shadow">Sport</button>
-        <button @click="filterCategory('digital')" class="btn btn-primary fs-3 text-shadow">Digital</button>
+      <div class="col-md-12 d-flex justify-content-evenly my-4">
+        <button @click="filterCategory('')" class="btn buttonbg fs-3 text-shadow">All</button>
+        <button @click="filterCategory('concert')" class="btn buttonbg fs-3 text-shadow">Concert</button>
+        <button @click="filterCategory('convention')" class="btn buttonbg fs-3 text-shadow">Convention</button>
+        <button @click="filterCategory('sport')" class="btn buttonbg fs-3 text-shadow">Sport</button>
+        <button @click="filterCategory('digital')" class="btn buttonbg fs-3 text-shadow">Digital</button>
       </div>
-      <div class="row">
-        <div class="col-md-4 p-3" v-for="e in events" :key="e.id">
+      <div class="row nopad padL">
+        <div class="col-md-4 p-3" v-for="e in events" :key="e.id" title="Event Details">
           <EventCard :events="e" />
         </div>
       </div>
@@ -73,8 +73,17 @@ export default {
 <style scoped lang="scss">
 .homeimg {
   max-height: 40vh;
-  min-width: 100%;
+  min-width: 99.9%;
   object-fit: cover;
+  border: 3px #1e0c97 solid;
+}
+
+.buttonbg {
+  background-color: #1e0c97;
+}
+
+:hover.buttonbg {
+  background-color: #b1fcdd;
 }
 
 .page-bg {
@@ -87,5 +96,18 @@ export default {
   text-shadow: 0px 0px 5px #272525d7;
   font-weight: bold;
   letter-spacing: 0.08rem;
+}
+
+.nopadmarg {
+  padding: 0%;
+  margin: 0%;
+}
+
+.nopad {
+  padding: 0%;
+}
+
+.padL {
+  padding-left: 1rem;
 }
 </style>

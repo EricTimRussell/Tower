@@ -1,13 +1,14 @@
 <template>
-  <div class="elevation-3">
+  <div class="elevation-1 text-shadow">
     <div class="p-3">
-      <img :src="account.picture" class="profimg">
-      <h6>{{account.name}}</h6>
+      <img :src="comment.creator.picture" class="profimg">
+      <h6>{{comment.creator.name}}</h6>
     </div>
     <div class="px-5 py-2">
       <h6>{{comment.body}}</h6>
     </div>
-    <span class="mdi mdi-delete-forever text-end fs-5 p-2 pointer"></span>
+    <span @click="deleteComment()" title="Delete Comment?"
+      class="mdi mdi-delete-forever text-end fs-5 p-2 pointer"></span>
   </div>
 </template>
 
@@ -36,8 +37,23 @@ export default {
       getCommentsByEvent(route.params.id)
     })
     return {
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      // TODO need function that deletes comment....make sure to pass the id for the comment
+      async deleteComment() {
+        try {
+          const yes = await Pop.confirm('Delete Ticket?')
+          if (!yes) { return }
+          const comment = AppState.comments.find(a => a.creatorId == AppState.account.id && a.eventId == AppState.activeEvent.id)
+          await commentsService.deleteComment(comment.id)
+        } catch (error) {
+          Pop.error(error, 'deleting comment')
+        }
+      }
+
+
+
     }
+
   }
 }
 
@@ -56,5 +72,12 @@ export default {
 
 .pointer {
   cursor: pointer;
+}
+
+.text-shadow {
+  color: #b1fcdd;
+  text-shadow: 0px 0px 5px #272525d7;
+  font-weight: bold;
+  letter-spacing: 0.08rem;
 }
 </style>
