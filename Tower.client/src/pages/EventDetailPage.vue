@@ -13,19 +13,20 @@
           </div>
           <div class="text-center">
             <h3>{{event.type}}</h3>
+          </div>
+          <div class="px-3">
             <h6>{{event.description}}</h6>
           </div>
           <div class="card-footer">
             <h5 class="text-end">{{event.capacity}} Spots Left</h5>
             <h1 v-if="event.isCancelled == true" class="text-danger">CANCELLED</h1>
             <div v-if="event.capacity>0" class="d-flex justify-content-between my-3">
-              <button @click="deleteTicket()" class="btn btn-danger" v-if="isAttending">CancelTicket</button>
-              <button @click="getTicket()" :disabled="event.isCancelled" class="btn btn-info mdi mdi-human"
-                v-else>Attend</button>
-              <!-- TODO :disabled="isAttending" -->
-              <!-- new button rendered IF i am attending that will delete the ticket...... be mindful of what id you are passing here... we want to delete the id of the ticket -->
-              <button @click="cancelEvent()" :disabled="event.isCancelled" class="btn btn-danger mx-3"
-                v-if="event.creatorId == account.id">Cancel
+              <button aria-label="Buy Ticket" @click="getTicket()" :disabled="event.isCancelled || isAttending"
+                class="btn buttonbg mdi mdi-human text-shadow">Attend</button>
+              <button aria-label="Delete Ticket" @click="deleteTicket()" v-if="isAttending"
+                class="btn btn-danger">CancelTicket</button>
+              <button aria-label="Cancel Event" @click="cancelEvent()" :disabled="event.isCancelled"
+                class="btn btn-danger mx-3" v-if="event.creatorId == account.id">Cancel
                 Event</button>
             </div>
             <div v-else>
@@ -33,8 +34,10 @@
             </div>
           </div>
           <h4 class="px-3">Who's Coming?</h4>
-          <div class="text-shadow p-3" v-for="a in attendee">
-            <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
+          <div class="row">
+            <div class="col-md-1 text-shadow d-flex px-4" v-for="a in attendee">
+              <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
+            </div>
           </div>
         </div>
         <div class="col-12 card glass">
@@ -105,7 +108,7 @@ export default {
       attendee: computed(() => AppState.tickets),
       comment: computed(() => AppState.comments),
       events: computed(() => AppState.events),
-      isAttending: computed(() => AppState.attendee.find(a => a.accountId == AppState.account.id)),
+      isAttending: computed(() => AppState.tickets.find(a => a.accountId == AppState.account.id)),
 
       // TODO create a computed that 'finds' whether or not the person logged in is attending the event...... you will use this computed to help dynamically render your buttons
 
@@ -113,6 +116,7 @@ export default {
         try {
           editable.value.eventId = route.params.id
           await commentsService.createComment(editable.value)
+          editable.value = {}
         } catch (error) {
           Pop.error(error, "Submitting Form")
         }
@@ -142,8 +146,9 @@ export default {
         try {
           const yes = await Pop.confirm('Delete Ticket?')
           if (!yes) { return }
-          const attendee = AppState.attendee.find(a => a.accountId == AppState.account.id && a.eventId == AppState.activeEvent.id)
+          const attendee = AppState.tickets.find(a => a.accountId == AppState.account.id && a.eventId == AppState.activeEvent.id)
           await eventsService.deleteTicket(attendee.id)
+          Pop.success('Ticket Deleted')
         } catch (error) {
           Pop.error(error, 'Deleting Ticket')
         }
@@ -173,7 +178,7 @@ export default {
 }
 
 .glass {
-  background: #aed1ff7e;
+  background: #99c5fd9a;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4.8px);
   -webkit-backdrop-filter: blur(4.8px);
@@ -184,5 +189,17 @@ export default {
   text-shadow: 0px 0px 5px #272525d7;
   font-weight: bold;
   letter-spacing: 0.08rem;
+}
+
+.buttonbg {
+  background-color: #1e0c97;
+}
+
+:hover.buttonbg {
+  background-color: #00ffaab9;
+}
+
+.nopad {
+  padding: 0%;
 }
 </style>

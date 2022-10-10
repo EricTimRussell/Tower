@@ -1,15 +1,15 @@
 <template>
   <div v-if="events">
-
-
     <router-link :to="{name: 'Event', params: {id: events.id}}">
-      <div class="card text-light bgimg cardshadow " :style="{backgroundImage: `url(${events.coverImg})`}">
+      <div class="card text-light bgimg cardshadow d-flex" :style="{backgroundImage: `url(${events.coverImg})`}">
         <div class="card-body">
         </div>
         <div class="card-footer glass">
           <h3 class="text-shadow">{{events.name}}</h3>
           <div>
-            <h5 class="text-end p-2 text-shadow">{{events.capacity}} Tickets Left</h5>
+            <h5 class="text-end p-2 text-shadow">{{new Date (events.startDate).toLocaleDateString('en-us', {month:
+            'short', day:
+            '2-digit'})}} || {{events.capacity}} Tickets Left</h5>
           </div>
         </div>
       </div>

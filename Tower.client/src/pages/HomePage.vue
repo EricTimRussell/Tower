@@ -9,11 +9,15 @@
           alt="arena" class="img-fluid homeimg">
       </div>
       <div class="col-md-12 d-flex justify-content-evenly my-4">
-        <button @click="filterCategory('')" class="btn buttonbg fs-3 text-shadow">All</button>
-        <button @click="filterCategory('concert')" class="btn buttonbg fs-3 text-shadow">Concert</button>
-        <button @click="filterCategory('convention')" class="btn buttonbg fs-3 text-shadow">Convention</button>
-        <button @click="filterCategory('sport')" class="btn buttonbg fs-3 text-shadow">Sport</button>
-        <button @click="filterCategory('digital')" class="btn buttonbg fs-3 text-shadow">Digital</button>
+        <button aria-label="Sort All" @click="filterCategory('')" class="btn buttonbg fs-3 text-shadow">All</button>
+        <button aria-label="Sort Concerts" @click="filterCategory('concert')"
+          class="btn buttonbg fs-3 text-shadow">Concert</button>
+        <button aria-label="Sort Conventions" @click="filterCategory('convention')"
+          class="btn buttonbg fs-3 text-shadow">Convention</button>
+        <button aria-label="Sort Sports" @click="filterCategory('sport')"
+          class="btn buttonbg fs-3 text-shadow">Sport</button>
+        <button aria-label="Sort Digital" @click="filterCategory('digital')"
+          class="btn buttonbg fs-3 text-shadow">Digital</button>
       </div>
       <div class="row nopad padL">
         <div class="col-md-4 p-3" v-for="e in events" :key="e.id" title="Event Details">
@@ -59,16 +63,7 @@ export default {
   components: { EventCard }
 }
 
-
-
-
-
-
 </script>
-
-
-
-
 
 <style scoped lang="scss">
 .homeimg {

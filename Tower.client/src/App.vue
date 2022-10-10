@@ -7,7 +7,7 @@
   </main>
 
 
-  <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="addEventCanvas"
+  <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="close" tabindex="-1" id="addEventCanvas"
     aria-labelledby="eventCanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="addEventCanvasLabel">Add Event</h5>

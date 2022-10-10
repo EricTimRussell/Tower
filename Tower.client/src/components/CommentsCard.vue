@@ -7,8 +7,8 @@
     <div class="px-5 py-2">
       <h6>{{comment.body}}</h6>
     </div>
-    <span @click="deleteComment()" title="Delete Comment?"
-      class="mdi mdi-delete-forever text-end fs-5 p-2 pointer"></span>
+    <span @click="deleteComment()" title="Delete Comment?" aria-label="Delete Comment?"
+      class=" delete mdi mdi-delete-forever text-end fs-5 p-2 pointer"></span>
   </div>
 </template>
 
@@ -49,9 +49,6 @@ export default {
           Pop.error(error, 'deleting comment')
         }
       }
-
-
-
     }
 
   }
@@ -79,5 +76,13 @@ export default {
   text-shadow: 0px 0px 5px #272525d7;
   font-weight: bold;
   letter-spacing: 0.08rem;
+}
+
+.delete {
+  color: black;
+}
+
+.delete:hover {
+  color: red;
 }
 </style>

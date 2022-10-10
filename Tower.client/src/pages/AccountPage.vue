@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid page-bg text-shadow" v-if="account?.id">
     <div class="row">
-      <h2>My Events</h2>
+      <h2>My Upcoming Events</h2>
       <div class="col-md-4 p-3" v-for="e in events" title="Event Details">
         <EventCard :events="e.event" :key="e.id" />
       </div>
