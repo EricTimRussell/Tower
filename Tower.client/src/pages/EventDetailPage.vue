@@ -21,7 +21,7 @@
             <h6>{{ event.description }}</h6>
           </div>
           <div class="card-footer">
-            <h5 class="text-end">{{ event.capacity }} Spots Left</h5>
+            <h5 v-if="event.isCancelled == false" class="text-end">{{ event.capacity }} Spots Left</h5>
             <h1 v-if="event.isCancelled == true" class="text-danger">CANCELLED</h1>
             <div v-if="event.capacity > 0" class="d-flex justify-content-between my-3">
               <button aria-label="Buy Ticket" @click="getTicket()" :disabled="event.isCancelled || isAttending"
@@ -36,8 +36,8 @@
               <h1>Event is Sold Out</h1>
             </div>
           </div>
-          <h4 class="px-3">Who's Coming?</h4>
-          <div class="row">
+          <div v-if="event.isCancelled == false" class="row">
+            <h4 class="px-3">Who's Coming?</h4>
             <div class="col-12 d-flex">
               <div class="text-shadow m-1" v-for="a in attendee">
                 <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
