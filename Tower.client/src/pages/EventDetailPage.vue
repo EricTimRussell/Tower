@@ -1,26 +1,29 @@
 <template>
   <div class="container-fluid page-bg">
-    <div class="row">
+    <div class="row mx-5">
       <div class="page-bg">
         <div class="card col-12 d-flex glass text-shadow">
           <img :src="event.coverImg" class="img-fluid event-img py-3"
             alt="https://th.bing.com/th/id/R.17502cb38ba111f3a64fac3e24fe2def?rik=ZGzhlgoUXnLYjQ&pid=ImgRaw&r=0">
           <div class="text-center">
-            <h2>{{event.name}} || {{new Date (event.startDate).toLocaleDateString('en-us', {month:
-            'short', day:
-            '2-digit'})}}
+            <h2>{{ event.name }} || {{ new Date(event.startDate).toLocaleDateString('en-us', {
+                month:
+                  'short', day:
+                  '2-digit'
+              })
+            }}
             </h2>
           </div>
           <div class="text-center">
-            <h3>{{event.type}}</h3>
+            <h3>{{ event.type }}</h3>
           </div>
           <div class="px-3">
-            <h6>{{event.description}}</h6>
+            <h6>{{ event.description }}</h6>
           </div>
           <div class="card-footer">
-            <h5 class="text-end">{{event.capacity}} Spots Left</h5>
+            <h5 class="text-end">{{ event.capacity }} Spots Left</h5>
             <h1 v-if="event.isCancelled == true" class="text-danger">CANCELLED</h1>
-            <div v-if="event.capacity>0" class="d-flex justify-content-between my-3">
+            <div v-if="event.capacity > 0" class="d-flex justify-content-between my-3">
               <button aria-label="Buy Ticket" @click="getTicket()" :disabled="event.isCancelled || isAttending"
                 class="btn buttonbg mdi mdi-human text-shadow">Attend</button>
               <button aria-label="Delete Ticket" @click="deleteTicket()" v-if="isAttending"
@@ -35,12 +38,14 @@
           </div>
           <h4 class="px-3">Who's Coming?</h4>
           <div class="row">
-            <div class="col-md-1 text-shadow d-flex px-4" v-for="a in attendee">
-              <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
+            <div class="col-12 d-flex">
+              <div class="text-shadow m-1" v-for="a in attendee">
+                <img :src="a.profile?.picture" :title="a.profile?.name" class="prof-img">
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-12 card glass">
+        <div class="col-12 card glass my-3" v-if="account.id">
           <form @submit.prevent="handleSubmit">
             <div class="p-3">
               <label for="body"></label>
@@ -110,8 +115,6 @@ export default {
       events: computed(() => AppState.events),
       isAttending: computed(() => AppState.tickets.find(a => a.accountId == AppState.account.id)),
 
-      // TODO create a computed that 'finds' whether or not the person logged in is attending the event...... you will use this computed to help dynamically render your buttons
-
       async handleSubmit() {
         try {
           editable.value.eventId = route.params.id
@@ -163,11 +166,12 @@ export default {
 
 <style scoped lang="scss">
 .prof-img {
-  max-height: 5vh,
+  max-height: 5vh;
+  border-radius: 50%;
 }
 
 .page-bg {
-  background-image: url(https://th.bing.com/th/id/R.dc8f14684b69cfc0d4b618cffcac86a6?rik=plXUGz%2bQ9h%2fMBQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2f38TYCLK.jpg&ehk=D8qmcuStUPeNvjwN%2bDXC91b0YOqhDBg9ZKJ02Vpfe0A%3d&risl=&pid=ImgRaw&r=0);
+  background-color: #2A2D3A;
   min-height: 110vh;
 }
 

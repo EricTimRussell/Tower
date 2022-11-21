@@ -1,23 +1,21 @@
 <template>
   <div class="container-fluid page-bg">
-    <div class="row">
-      <div class="col-12 text-shadow">
-        <h1>StadiumEvents</h1>
-      </div>
-      <div class="col-12 nopadmarg">
+    <div class="row justify-content-center mx-3">
+      <div class="col-12">
         <img src="https://th.bing.com/th/id/R.17502cb38ba111f3a64fac3e24fe2def?rik=ZGzhlgoUXnLYjQ&pid=ImgRaw&r=0"
           alt="arena" class="img-fluid homeimg">
       </div>
-      <div class="col-md-12 d-flex justify-content-evenly my-4">
-        <button aria-label="Sort All" @click="filterCategory('')" class="btn buttonbg fs-3 text-shadow">All</button>
-        <button aria-label="Sort Concerts" @click="filterCategory('concert')"
-          class="btn buttonbg fs-3 text-shadow">Concert</button>
-        <button aria-label="Sort Conventions" @click="filterCategory('convention')"
-          class="btn buttonbg fs-3 text-shadow">Convention</button>
-        <button aria-label="Sort Sports" @click="filterCategory('sport')"
-          class="btn buttonbg fs-3 text-shadow">Sport</button>
-        <button aria-label="Sort Digital" @click="filterCategory('digital')"
-          class="btn buttonbg fs-3 text-shadow">Digital</button>
+      <div class="col-md-10 my-4">
+        <div class=" d-flex justify-content-evenly bg-secondary rounded p-3">
+          <button aria-label="Sort All" @click="filterCategory('')" class="btn fs-3 text-shadow">All</button>
+          <button aria-label="Sort Concerts" @click="filterCategory('concert')"
+            class="btn fs-3 text-shadow">Concert</button>
+          <button aria-label="Sort Conventions" @click="filterCategory('convention')"
+            class="btn fs-3 text-shadow">Convention</button>
+          <button aria-label="Sort Sports" @click="filterCategory('sport')" class="btn fs-3 text-shadow">Sport</button>
+          <button aria-label="Sort Digital" @click="filterCategory('digital')"
+            class="btn fs-3 text-shadow">Digital</button>
+        </div>
       </div>
       <div class="row nopad padL">
         <div class="col-md-4 p-3" v-for="e in events" :key="e.id" title="Event Details">
@@ -70,11 +68,7 @@ export default {
   max-height: 40vh;
   min-width: 99.9%;
   object-fit: cover;
-  border: 3px #1e0c97 solid;
-}
-
-.buttonbg {
-  background-color: #1e0c97;
+  border: 1px #3be8ff solid;
 }
 
 :hover.buttonbg {
@@ -82,7 +76,7 @@ export default {
 }
 
 .page-bg {
-  background-image: url(https://th.bing.com/th/id/R.dc8f14684b69cfc0d4b618cffcac86a6?rik=plXUGz%2bQ9h%2fMBQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2f38TYCLK.jpg&ehk=D8qmcuStUPeNvjwN%2bDXC91b0YOqhDBg9ZKJ02Vpfe0A%3d&risl=&pid=ImgRaw&r=0);
+  background-color: #2A2D3A;
   min-height: 100vh;
 }
 
@@ -91,11 +85,6 @@ export default {
   text-shadow: 0px 0px 5px #272525d7;
   font-weight: bold;
   letter-spacing: 0.08rem;
-}
-
-.nopadmarg {
-  padding: 0%;
-  margin: 0%;
 }
 
 .nopad {
